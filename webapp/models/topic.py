@@ -20,7 +20,7 @@ class Topic(models.Model):
         return f"{self.pk}. {self.title}"
 
     def get_absolute_url(self):
-        return reverse("webapp:topics")
+        return reverse("webapp:topic_detail", kwargs={"pk": self.pk})
 
     class Meta:
         db_table = "topics"

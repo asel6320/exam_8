@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card mt-3 text-center" style="">
+        <div class="card-body">
+            <h5 class="card-title">Название: {{ topic.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">Автор: {{ topic.user }}</h6>
+            <p class="card-text">Контент: {{ topic.description }}</p>
+            <p class="card-text">Дата создания: {{ article.created_at|date:'Y-m-d' }}</p>
+
+        </div>
+    </div>
+    {% if comments.exists %}
+        <p>Комментарии: </p>
+        {% for comment in comments %}
+            <p>{{ comment.text }}</p>
+            <p>{{ comment.user }}</p>
+            <p>{{ comment.created_at|date:"Y-m-d h:m:s" }}</p>
+
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -5,6 +5,7 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ topic.title }}</h5>
                     <h6 class="card-subtitle mb-2 text-body-secondary">{{ topic.user }}</h6>
+                    <p>{{ topic.description }}</p>
 
                     <div class="btn-group" role="group">
                         <a href="{{ topic.get_absolute_url }}" class="btn btn-primary"><i
@@ -13,7 +14,7 @@
                 </div>
             </div>
         </div>
-        {% empty %}
+    {% empty %}
         <h2>Topics not found</h2>
     {% endfor %}
 </div>

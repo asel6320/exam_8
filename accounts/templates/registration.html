@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Рeгистрация</h1>
+    <h1>Registration</h1>
 
     <form action="" method="post">
         {% csrf_token %}
-        {% include 'partial/form.html' with button_text='Зарегестрироваться' %}
+        {% include 'partial/form.html' with button_text='Register' %}
     </form>
 {% endblock %}
