@@ -49,12 +49,12 @@ class TopicListView(ListView):
         return context
 
 
-class CreateTopicView(CreateView):
+class CreateTopicView(LoginRequiredMixin, CreateView):
     template_name = "topics/create_topic.html"
     form_class = TopicForm
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
+        form.instance.user = self.request.user
         return super().form_valid(form)
 
 class TopicDetailView(DetailView):

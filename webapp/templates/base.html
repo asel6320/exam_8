@@ -24,7 +24,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">  <!-- Align items to the left -->
+            <ul class="navbar-nav me-auto">
                 {% block links %}
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'webapp:create_topic' %}">Create Topic</a>
@@ -32,13 +32,10 @@
                 {% endblock %}
             </ul>
 
-            <!-- Search Form in the center -->
-            <form class="d-flex mx-auto">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
+            <form class="d-flex mx-auto" method="get">
+                {% include "partial/search_form.html" with form=search_form %}
             </form>
 
-            <!-- Register and Log In Links on the right -->
             <ul class="navbar-nav ms-auto">
                 {% if not request.user.is_authenticated %}
                     <li class="nav-item">

@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Log In</h1>
-    {{ request.get_full_path }}
+    <h2 class="my-3">Log In</h2>
     <form action="" method="post" class="text-center w-25 ms-auto me-auto">
         {% csrf_token %}
         {% if has_error %}

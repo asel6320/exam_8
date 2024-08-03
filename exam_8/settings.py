@@ -124,7 +124,7 @@ LOGIN_REDIRECT_URL = "webapp:topics"
 LOGOUT_REDIRECT_URL = "webapp:topics"
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = Path.joinpath(BASE_DIR, 'uploads')
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'avatars')
 
 
 # Static files (CSS, JavaScript, Images)
