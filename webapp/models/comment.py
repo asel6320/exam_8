@@ -14,6 +14,15 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.user}: {self.text[:20]}'
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.topic.update_reply_count()
+
+    def delete(self, *args, **kwargs):
+        topic = self.topic
+        super().delete(*args, **kwargs)
+        topic.update_reply_count()
+
     class Meta:
         db_table = "comments"
         verbose_name = "Comment"

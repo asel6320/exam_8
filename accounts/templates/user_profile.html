@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="{{ user_obj.profile.avatar.url }}" alt="Card image cap">
+    <div class="card mt-3" style="width: 18rem;">
+        <img class="card-img-top" src="{{ user_obj.profile.avatar.url }}" alt="{{ user_obj.username }}">
         <div class="card-body">
-            <p class="card-text">Nickname: {{ user_obj.username }}</p>
-            <p class="card-text">Bio: {{ user_obj.bio }}</p>
+            <h5 class="card-title">{{ user_obj.username }}</h5>
+            <p class="card-text">Bio: {{ user_obj.profile.bio }}</p>
+            <p class="card-text">Email: {{ user_obj.email }}</p>
+            <p class="card-text">Number of Comments: {{ comment_count }}</p>
         </div>
     </div>
-    {% include 'partial/topics_list.html' %}
+
+    <h3 class="mt-4">Topics Created by {{ user_obj.username }}</h3>
+    {% if user_topics.exists %}
+        <ul class="list-group mt-3">
+            {% for topic in user_topics %}
+                <li class="list-group-item d-flex justify-content-between align-items-center my-2">
+                    <a href="{% url 'webapp:topic_detail' topic.pk %}" class="d-flex w-100 text-decoration-none text-dark link-primary">
+                        <span>{{ topic.title }}</span>
+                        <span class="ms-3"><strong>Replies:</strong> {{ topic.reply_count }}</span>
+                        <span class="ms-3"><strong>Created At:</strong> {{ topic.created_at|date:"Y-m-d" }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No topics created yet.</p>
+    {% endif %}
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView
 from django.core.paginator import Paginator
@@ -7,13 +8,13 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, UpdateView
 
-from accounts.forms import MyUserCreationForm
+from webapp.models import Comment, Topic
 
 User = get_user_model()
 
 
 class RegistrationView(CreateView):
-    form_class = MyUserCreationForm
+    form_class = UserCreationForm
     template_name = "registration.html"
     model = User
 
@@ -37,5 +38,14 @@ class ProfileView(LoginRequiredMixin, DetailView):
     context_object_name = "user_obj"
     paginate_related_by = 3
 
+    def get_object(self):
+        return get_user_model().objects.get(pk=self.kwargs['pk'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        context['comment_count'] = Comment.objects.filter(user=user).count()
+        context['user_topics'] = Topic.objects.filter(user=user)
+        return context
 
 

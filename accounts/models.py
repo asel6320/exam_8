@@ -8,7 +8,6 @@ class Profile(models.Model):
     bio = models.TextField(blank=True, null=True, verbose_name='Bio')
     post_count = models.PositiveIntegerField(default=0)
 
-
     def __str__(self):
         return self.user.get_full_name() + "'s Profile"
 
