@@ -1,5 +1,8 @@
+from urllib import request
+
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -60,8 +63,18 @@ class CreateTopicView(LoginRequiredMixin, CreateView):
 class TopicDetailView(DetailView):
     template_name = "topics/topic_detail.html"
     model = Topic
+    paginate_by = 3
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["comments"] = self.object.comments.order_by("-created_at")
+        comments_list = self.object.comments.order_by("-created_at")
+
+        # Paginate comments
+        paginator = Paginator(comments_list, self.paginate_by)
+        page_number = self.request.GET.get('page')
+        comments = paginator.get_page(page_number)
+
+        context["comments"] = comments
+        context["is_paginated"] = comments.has_other_pages()
+
         return context
