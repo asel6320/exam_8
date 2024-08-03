@@ -1,22 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="card mt-3 text-center" style="">
+    <div class="card mt-3">
         <div class="card-body">
-            <h5 class="card-title">Название: {{ topic.title }}</h5>
-            <h6 class="card-subtitle mb-2 text-body-secondary">Автор: {{ topic.user }}</h6>
-            <p class="card-text">Контент: {{ topic.description }}</p>
-            <p class="card-text">Дата создания: {{ article.created_at|date:'Y-m-d' }}</p>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p class="card-text mb-0">{{ topic.description }}</p>
+                <a class="btn btn-primary" href="{% url 'webapp:create_comment' topic.pk %}">Leave Comment</a>
+            </div>
 
+            {% if comments.exists %}
+                <div class="mt-4">
+                    {% for comment in comments %}
+                        <div class="d-flex mb-4 border p-3 rounded">
+                            <div class="me-3">
+                                <img src="{{ comment.user.profile.avatar.url }}" alt="{{ comment.user.username }}" class="rounded-circle" style="width: 80px; height: 80px; object-fit: cover;">
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center mb-2">
+                                    <strong class="me-2">{{ comment.user.username }}</strong>
+                                    <small class="text-muted">{{ comment.created_at|date:"Y-m-d" }}</small>
+                                </div>
+                                <p class="mb-2">{{ comment.text }}</p>
+                                {% if comment.user == request.user or perms.webapp.update_comment %}
+                                    <div class="d-flex gap-2">
+                                        <a href="{% url "webapp:update_comment" comment.pk %}" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+                                        <a href="{% url "webapp:delete_comment" comment.pk %}" class="btn btn-outline-danger"><i class="bi bi-trash3"></i> Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
     </div>
-    {% if comments.exists %}
-        <p>Комментарии: </p>
-        {% for comment in comments %}
-            <p>{{ comment.text }}</p>
-            <p>{{ comment.user }}</p>
-            <p>{{ comment.created_at|date:"Y-m-d h:m:s" }}</p>
-
-        {% endfor %}
-    {% endif %}
 {% endblock %}

@@ -32,10 +32,6 @@
                 {% endblock %}
             </ul>
 
-            <form class="d-flex mx-auto" method="get">
-                {% include "partial/search_form.html" with form=search_form %}
-            </form>
-
             <ul class="navbar-nav ms-auto">
                 {% if not request.user.is_authenticated %}
                     <li class="nav-item">
